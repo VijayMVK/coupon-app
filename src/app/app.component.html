@@ -1,21 +1,129 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space center">Coupon Application</span>
+</mat-toolbar>
+<div class="container">
+  <mat-card style="margin-bottom: 10px;">
+    <mat-card-content>
+      <form [formGroup]="form" class="col-lg-6 offset-lg-3">
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <mat-form-field>
+              <mat-select formControlName="coupon_type" placeholder="Coupon Type*">
+                <mat-option *ngFor="let type of types" [value]="type.value">
+                  {{type.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field>
+              <input type="text" matInput formControlName="coupon_code" placeholder="Coupon Code*">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-label>Start Date*</mat-label>
+              <input matInput [matDatepicker]="spicker" formControlName="valid_from">
+              <mat-datepicker-toggle matSuffix [for]="spicker"></mat-datepicker-toggle>
+              <mat-datepicker #spicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-label>End Date*</mat-label>
+              <input matInput [matDatepicker]="epicker" formControlName="valid_to">
+              <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+              <mat-datepicker #epicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field>
+              <mat-select formControlName="is_unlimited" placeholder="Coupon Availability*">
+                <mat-option *ngFor="let y of availabilities" [value]="y.value">
+                  {{y.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <ejs-richtexteditor placeholder="Type Something" formControlName="tnc"></ejs-richtexteditor>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field>
+              <mat-select formControlName="is_active" placeholder="Coupon Status">
+                <mat-option *ngFor="let y of status" [value]="y.value">
+                  {{y.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <h5>Coupon Rules</h5>
+          <div class="col-md-12 mt-3" formArrayName="rules" *ngFor="let a of form.get('rules').controls; let i = index">
+            <div [formGroupName]="i">
+              <mat-accordion>
+                <mat-expansion-panel hideToggle expanded>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      RULE #{{i+1}}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="row justify-content-center">
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <input type="text" matInput formControlName="min_amount" placeholder="Min Amount*">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <input type="text" matInput formControlName="max_amount" placeholder="Max Amount">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <mat-select formControlName="discount_type" placeholder="Discount Type*">
+                          <mat-option *ngFor="let type of discounts" [value]="type.value">
+                            {{type.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <input type="text" matInput formControlName="discount" placeholder="Discount Amount*">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <input type="text" matInput formControlName="max_discount" placeholder="Max Discount Amount">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button class="mt-3 float-right" (click)="addRule()" mat-raised-button color="accent">Add More</button>
+          </div>
+          <button class="mt-3" type="submit" (click)="submitForm(form,content)" mat-raised-button color="primary">Save</button>
+        </div>
+      </form>
 
-<router-outlet></router-outlet>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Valid Coupon Form</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <pre>{{formData | json}}</pre>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-outline-dark" (click)="c('OK click')">OK</button>
+  </div>
+</ng-template>
